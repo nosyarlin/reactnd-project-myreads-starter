@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import BookShelve from './BookShelve';
+import BookShelf from './BookShelf';
+import * as Constants from './Constants';
 
 class MyReadsPage extends Component {
   render() {
@@ -12,9 +13,18 @@ class MyReadsPage extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <BookShelve readingState="Currently Reading" books={booksCurrentlyReading}/>
-            <BookShelve readingState="Want to Read" books={booksWantToRead}/>
-            <BookShelve readingState="Read" books={booksRead}/>
+            <BookShelf 
+              shelf={Constants.SHELVES.CURRENT_READING} 
+              books={booksCurrentlyReading}
+            />
+            <BookShelf 
+              shelf={Constants.SHELVES.WANT_TO_READ} 
+              books={booksWantToRead}
+            />
+            <BookShelf 
+              shelf={Constants.SHELVES.READ} 
+              books={booksRead}
+            />
           </div>
         </div>
         <div className="open-search">

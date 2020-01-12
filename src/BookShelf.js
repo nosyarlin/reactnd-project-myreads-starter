@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Book from './Book';
 
-const BookShelve = (props) => {
-  const { readingState, books } = props;
+const BookShelf = (props) => {
+  const { shelf, books } = props;
   return (
     <div className="bookshelf">
-      <h2 className="bookshelf-title">{readingState}</h2>
+      <h2 className="bookshelf-title">{shelf}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
           {books.map((book) => (
@@ -15,6 +15,7 @@ const BookShelve = (props) => {
                 title={book.title} 
                 author={book.author} 
                 coverStyle={book.coverStyle}
+                shelf={shelf}
               />
             </li>
           ))}
@@ -24,9 +25,9 @@ const BookShelve = (props) => {
   )
 }
 
-BookShelve.propTypes = {
-  readingState: PropTypes.string.isRequired,
+BookShelf.propTypes = {
+  shelf: PropTypes.string.isRequired,
   books: PropTypes.array.isRequired,
 };
 
-export default BookShelve;
+export default BookShelf;

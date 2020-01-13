@@ -55,7 +55,7 @@ class MyReadsPage extends Component {
         <div className="list-books-content">
           <div>
             <BookShelf 
-              shelf={Constants.SHELVES.CURRENT_READING} 
+              shelf={Constants.SHELVES.CURRENTLY_READING} 
               books={currentlyReading}
               onSelectorChange={this.onSelectorChange}
             />

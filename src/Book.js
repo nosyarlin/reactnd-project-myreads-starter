@@ -1,29 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ShelveSelector from './ShelveSelector';
+import ShelfSelector from './ShelfSelector';
 
 const Book = (props) => {
-  const { title, author, coverStyle, shelf } = props;
+  const { onSelectorChange, book, shelf } = props;
   return (
     <div className="book">
       <div className="book-top">
         <div 
           className="book-cover" 
-          style={coverStyle}>
+          style={book.coverStyle}>
         </div>
-        <ShelveSelector selected={shelf}/>
+        <ShelfSelector
+          selected={shelf}
+          onSelectorChange={onSelectorChange}
+          book={book}
+        />
       </div>
-      <div className="book-title">{title}</div>
-      <div className="book-authors">{author}</div>
+      <div className="book-title">{book.title}</div>
+      <div className="book-authors">{book.author}</div>
     </div>
   );
 }
 
 Book.propTypes = {
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  coverStyle: PropTypes.object.isRequired,
+  book: PropTypes.object.isRequired,
   shelf: PropTypes.string.isRequired,
+  onSelectorChange: PropTypes.func.isRequired,
 };
 
 export default Book;

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 import * as Constants from './Constants';
 
 class MyReadsPage extends Component {
   render() {
-    const { booksCurrentlyReading, booksWantToRead, booksRead } = this.props;
+    const { onSelectorChange, booksCurrentlyReading, booksWantToRead, booksRead } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -16,14 +17,17 @@ class MyReadsPage extends Component {
             <BookShelf 
               shelf={Constants.SHELVES.CURRENT_READING} 
               books={booksCurrentlyReading}
+              onSelectorChange={onSelectorChange}
             />
             <BookShelf 
               shelf={Constants.SHELVES.WANT_TO_READ} 
               books={booksWantToRead}
+              onSelectorChange={onSelectorChange}
             />
             <BookShelf 
               shelf={Constants.SHELVES.READ} 
               books={booksRead}
+              onSelectorChange={onSelectorChange}
             />
           </div>
         </div>

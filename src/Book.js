@@ -4,12 +4,14 @@ import ShelfSelector from './ShelfSelector';
 
 const Book = (props) => {
   const { onSelectorChange, book, shelf } = props;
+  const coverURL = book.imageLinks ? book.imageLinks.thumbnail : '';
+  const authors = book.authors ? book.authors.join(', ') : '';
   return (
     <div className="book">
       <div className="book-top">
         <div 
           className="book-cover"
-          style={{backgroundImage: `url("${book.imageLinks.thumbnail}")`}} 
+          style={{backgroundImage: `url("${coverURL}")`}} 
         >
         </div>
         <ShelfSelector
@@ -19,7 +21,7 @@ const Book = (props) => {
         />
       </div>
       <div className="book-title">{book.title}</div>
-      <div className="book-authors">{book.authors.join(', ')}</div>
+      <div className="book-authors">{authors}</div>
     </div>
   );
 }

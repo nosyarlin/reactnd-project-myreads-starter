@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Book from './Book';
+import BookGrid from './BookGrid';
 
 const BookShelf = (props) => {
   const { onSelectorChange, shelf, books } = props;
@@ -8,17 +8,11 @@ const BookShelf = (props) => {
     <div className="bookshelf">
       <h2 className="bookshelf-title">{shelf}</h2>
       <div className="bookshelf-books">
-        <ol className="books-grid">
-          {books.map((book) => (
-            <li key={book.title}>
-              <Book 
-                book={book}
-                shelf={shelf}
-                onSelectorChange={onSelectorChange}
-              />
-            </li>
-          ))}
-        </ol>
+        <BookGrid
+          books={books}
+          shelf={shelf}
+          onSelectorChange={onSelectorChange}
+        />
       </div>
     </div>
   )

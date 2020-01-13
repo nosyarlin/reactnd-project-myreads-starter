@@ -14,45 +14,31 @@ class MyReadsPage extends Component {
   componentDidMount() {
     BooksAPI.getAll()
       .then((books) => {
-        const currentlyReading = books.filter(
-          (book) => book.shelf === 'currentlyReading');
-        const wantToRead = books.filter(
-          (book) => book.shelf === 'wantToRead');
-        const read = books.filter(
-          (book) => book.shelf === 'read');
-        this.setState({
-          currentlyReading: currentlyReading,
-          wantToRead: wantToRead,
-          read: read,
+        this.setState((prevState) => {
+          books.map((book) => (
+            prevState[book.shelf].push(book)
+          ));
+          return prevState;
         });        
       });
   }
 
   onSelectorChange = (prevShelf, newShelf, bookToMove) => {
-    // Define key mappings
-    const shelfKeys = {};
-    shelfKeys[Constants.SHELVES.CURRENT_READING] = 'currentlyReading';
-    shelfKeys[Constants.SHELVES.WANT_TO_READ] = 'wantToRead';
-    shelfKeys[Constants.SHELVES.READ] = 'read';
-    shelfKeys[Constants.SHELVES.NONE] = 'none';
-
-    BooksAPI.update(bookToMove, shelfKeys[newShelf])
+    BooksAPI.update(bookToMove, newShelf)
       .then(
         this.setState((prevState) => {
           const out = {};
           // Remove from previous shelf
           if (prevShelf !== Constants.SHELVES.NONE) {
-            const prevShelfKey = shelfKeys[prevShelf];
-            const shelfToRemove = prevState[prevShelfKey].filter(
+            const shelfToRemove = prevState[prevShelf].filter(
               (book) => (book.id !== bookToMove.id)
             );
-            out[prevShelfKey] = shelfToRemove;
+            out[prevShelf] = shelfToRemove;
           }
           // Add to new shelf
           if (newShelf !== Constants.SHELVES.NONE) {
-            const newShelfKey = shelfKeys[newShelf];
-            const shelfToAdd = prevState[newShelfKey].concat([bookToMove]);
-            out[newShelfKey] = shelfToAdd;
+            const shelfToAdd = prevState[newShelf].concat([bookToMove]);
+            out[newShelf] = shelfToAdd;
           }
           return out;
         })

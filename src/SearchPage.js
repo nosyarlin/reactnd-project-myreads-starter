@@ -16,15 +16,8 @@ class SearchPage extends React.Component {
       }));
   }
 
-  onSelectorChange = (prevShelf, newShelf, bookToMove) => {
-    // Define key mappings
-    const shelfKeys = {};
-    shelfKeys[Constants.SHELVES.CURRENT_READING] = 'currentlyReading';
-    shelfKeys[Constants.SHELVES.WANT_TO_READ] = 'wantToRead';
-    shelfKeys[Constants.SHELVES.READ] = 'read';
-    shelfKeys[Constants.SHELVES.NONE] = 'none';
-
-    BooksAPI.update(bookToMove, shelfKeys[newShelf]);
+  onSelectorChange = (_, newShelf, bookToMove) => {
+    BooksAPI.update(bookToMove, newShelf);
   }
 
   render() {

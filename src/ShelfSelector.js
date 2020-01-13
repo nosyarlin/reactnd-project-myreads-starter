@@ -13,9 +13,9 @@ const ShelfSelector = (props) => {
         value={selected}
       >
         <option value="move" disabled>Move to...</option>
-        {Object.keys(Constants.SHELVES).map((key) => (
-          <option key={key} value={Constants.SHELVES[key]}>
-            {Constants.SHELVES[key]}
+        {Object.keys(Constants.SHELVES_TO_HEADINGS).map((shelf) => (
+          <option key={shelf} value={shelf}>
+            {Constants.SHELVES_TO_HEADINGS[shelf]}
           </option>
         ))}
       </select>

@@ -27,6 +27,8 @@ class SearchPage extends React.Component {
           return result;
         })
         this.setState({ results: processedResults });
+      } else {
+        this.setState({ results: [] });
       }
     });
   }

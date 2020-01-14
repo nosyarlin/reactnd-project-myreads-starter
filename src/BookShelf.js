@@ -13,7 +13,6 @@ const BookShelf = (props) => {
       <div className="bookshelf-books">
         <BookGrid
           books={books}
-          shelf={shelf}
           onSelectorChange={onSelectorChange}
         />
       </div>

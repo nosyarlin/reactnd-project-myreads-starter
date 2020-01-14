@@ -1,52 +1,36 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 import * as Constants from './Constants';
-import * as BooksAPI from './BooksAPI'
 
 class MyReadsPage extends Component {
+  static propTypes = {
+    shelvedBooks: PropTypes.object.isRequired,
+    onSelectorChange: PropTypes.func.isRequired,
+  }
+
   state = {
     currentlyReading: [],
     wantToRead: [],
     read: [],
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState((prevState) => {
-          books.map((book) => (
-            prevState[book.shelf].push(book)
-          ));
-          return prevState;
-        });        
-      });
-  }
-
-  onSelectorChange = (prevShelf, newShelf, bookToMove) => {
-    BooksAPI.update(bookToMove, newShelf)
-      .then(
-        this.setState((prevState) => {
-          const out = {};
-          // Remove from previous shelf
-          if (prevShelf !== Constants.SHELVES.NONE) {
-            const shelfToRemove = prevState[prevShelf].filter(
-              (book) => (book.id !== bookToMove.id)
-            );
-            out[prevShelf] = shelfToRemove;
-          }
-          // Add to new shelf
-          if (newShelf !== Constants.SHELVES.NONE) {
-            const shelfToAdd = prevState[newShelf].concat([bookToMove]);
-            out[newShelf] = shelfToAdd;
-          }
-          return out;
-        })
-      );
+  static getDerivedStateFromProps(props, state) {
+    state = {
+      currentlyReading: [],
+      wantToRead: [],
+      read: [],
+    }
+    Object.values(props.shelvedBooks).map((book) => (
+      state[book.shelf].push(book)
+    ));
+    return state;
   }
 
   render() {
     const { currentlyReading, wantToRead, read } = this.state;
+    const { onSelectorChange } = this.props;
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -57,17 +41,17 @@ class MyReadsPage extends Component {
             <BookShelf 
               shelf={Constants.SHELVES.CURRENTLY_READING} 
               books={currentlyReading}
-              onSelectorChange={this.onSelectorChange}
+              onSelectorChange={onSelectorChange}
             />
             <BookShelf 
               shelf={Constants.SHELVES.WANT_TO_READ} 
               books={wantToRead}
-              onSelectorChange={this.onSelectorChange}
+              onSelectorChange={onSelectorChange}
             />
             <BookShelf 
               shelf={Constants.SHELVES.READ} 
               books={read}
-              onSelectorChange={this.onSelectorChange}
+              onSelectorChange={onSelectorChange}
             />
           </div>
         </div>

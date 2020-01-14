@@ -13,20 +13,20 @@ class ShelfSelector extends Component {
     selected: this.props.selected,
   }
 
-  onSelectorChange = (prevSelected, newSelected, book) => {
-    this.setState({ selected: newSelected });
-    this.props.onSelectorChange(prevSelected, newSelected, book);
+  onSelectorChange = (event) => {
+    this.setState({ selected: event.target.value });
+    this.props.onSelectorChange(
+      event.target.value,
+      this.props.book
+    );
   }
 
   render() {
-    const { book } = this.props;
     const { selected } = this.state;
     return (
       <div className="book-shelf-changer">
         <select 
-          onChange={(event) => {
-            this.onSelectorChange(selected, event.target.value, book);
-          }}
+          onChange={this.onSelectorChange}
           value={selected}
         >
           <option value="move" disabled>Move to...</option>

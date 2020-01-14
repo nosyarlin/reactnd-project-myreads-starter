@@ -1,23 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import BookGrid from './BookGrid';
 import * as BooksAPI from './BooksAPI';
 import * as Constants from './Constants';
 
 class SearchPage extends React.Component {
+  static propTypes = {
+    shelvedBooks: PropTypes.object.isRequired,
+    onSelectorChange: PropTypes.func.isRequired,
+  }
+
   state = {
-    books: []
+    results: [],
   }
 
   onSearch = (event) => {
+    const { shelvedBooks } = this.props;
     BooksAPI.search(event.target.value)
-      .then((books) => this.setState({
-        books: Array.isArray(books) ? books : [],
-      }));
-  }
-
-  onSelectorChange = (_, newShelf, bookToMove) => {
-    BooksAPI.update(bookToMove, newShelf);
+    .then((results) => {
+      if (Array.isArray(results)) {
+        const processedResults = results.map((result) => {
+          result.shelf = result.id in shelvedBooks 
+          ? shelvedBooks[result.id].shelf 
+          : Constants.SHELVES.NONE;
+          return result;
+        })
+        this.setState({ results: processedResults });
+      }
+    });
   }
 
   render() {
@@ -35,9 +46,8 @@ class SearchPage extends React.Component {
         </div>
         <div className="search-books-results">
           <BookGrid
-            books={this.state.books}
-            shelf={Constants.SHELVES.NONE}
-            onSelectorChange={this.onSelectorChange}
+            books={this.state.results}
+            onSelectorChange={this.props.onSelectorChange}
           />
         </div>
       </div>

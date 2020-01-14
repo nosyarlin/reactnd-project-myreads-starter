@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ShelfSelector from './ShelfSelector';
 
 const Book = (props) => {
-  const { onSelectorChange, book, shelf } = props;
+  const { onSelectorChange, book } = props;
   const coverURL = book.imageLinks ? book.imageLinks.thumbnail : '';
   const authors = book.authors ? book.authors.join(', ') : '';
   return (
@@ -15,7 +15,7 @@ const Book = (props) => {
         >
         </div>
         <ShelfSelector
-          selected={shelf}
+          selected={book.shelf}
           onSelectorChange={onSelectorChange}
           book={book}
         />
@@ -28,7 +28,6 @@ const Book = (props) => {
 
 Book.propTypes = {
   book: PropTypes.object.isRequired,
-  shelf: PropTypes.string.isRequired,
   onSelectorChange: PropTypes.func.isRequired,
 };
 
